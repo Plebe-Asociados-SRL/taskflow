@@ -21,9 +21,10 @@ public class TaskItemService
 
     public void CreateTask(string title, string responsible) //Sobrecarga del método CreateTask para permitir crear tareas sin descripción
     {
+        int tasks = ListTask().Count();
         var newTask = new TaskItem
         {
-            Id = tasks.Count > 0 ? tasks.Max(t => t.Id) + 1 : 1,
+            Id = tasks + 1,
             Title = title,
             Description = null,
             Responsible = responsible,
