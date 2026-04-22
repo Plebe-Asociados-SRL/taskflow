@@ -74,4 +74,36 @@ public class TaskServiceTests
         // Assert
         action.Should().Throw<ArgumentException>().WithMessage("Tarea no encontrada.");
     }
+
+    /// <summary>
+    /// Valida que se lance una excepción cuando el título está vacío.
+    /// </summary>
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void CreateTask_ShouldThrowArgumentException_WhenTitleIsInvalid(string invalidTitle)
+    {
+        // Act
+        var action = () => _service.CreateTask(invalidTitle, "Responsable");
+
+        // Assert
+        action.Should().Throw<ArgumentException>().WithMessage("El título de la tarea no puede estar vacío.");
+    }
+
+    /// <summary>
+    /// Valida que se lance una excepción cuando el responsable está vacío.
+    /// </summary>
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void CreateTask_ShouldThrowArgumentException_WhenResponsibleIsInvalid(string invalidResponsible)
+    {
+        // Act
+        var action = () => _service.CreateTask("Título", invalidResponsible);
+
+        // Assert
+        action.Should().Throw<ArgumentException>().WithMessage("El responsable de la tarea no puede estar vacío.");
+    }
 }
