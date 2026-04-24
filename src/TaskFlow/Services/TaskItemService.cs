@@ -6,9 +6,12 @@ namespace TaskFlow.Services;
 public class TaskItemService
 {
     private readonly List<TaskItem> _tasks = new ();
-    public TaskItemService()
+    private readonly IFileManager _fileManager;
+
+    public TaskItemService(IFileManager? fileManager = null)
     {
         _tasks = new List<TaskItem>();
+        _fileManager = fileManager ?? new FileManager();
     }
     public void CreateTask(string title, string description, string responsible) //Método para crear una tarea con título, descripción y responsable
     {
@@ -57,6 +60,6 @@ public class TaskItemService
         task.UpdatedAt = DateTime.UtcNow;
 
         var options = new JsonSerializerOptions { WriteIndented = true };
-        File.WriteAllText("tasks.json", JsonSerializer.Serialize(_tasks, options));
+        _fileManager.WriteAllText("tasks.json", JsonSerializer.Serialize(_tasks, options));
     }
 }
