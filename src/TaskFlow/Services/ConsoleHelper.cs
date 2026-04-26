@@ -17,13 +17,13 @@ public class ConsoleHelper
         while (!exit)
         {
         Console.Clear();
-        Console.WriteLine("=============================");
-        Console.WriteLine("       🚀 TASKFLOW 🚀      ");
-        Console.WriteLine("=============================");
-        Console.WriteLine("1. Ver lista de tareas");
-        Console.WriteLine("2. Crear nueva tarea (Completa)");
-        Console.WriteLine("3. Salir");
-        Console.WriteLine("=============================");
+        ShowText("=============================");
+        ShowText("        || TASKFLOW ||       ");
+        ShowText("=============================");
+        ShowText("1. Ver lista de tareas");
+        ShowText("2. Crear nueva tarea (Completa)");
+        ShowText("3. Salir");
+        ShowText("=============================");
         Console.Write("Seleccione una opción: ");
     
         string? option = Console.ReadLine();
@@ -39,44 +39,59 @@ public class ConsoleHelper
                 break;
             case "3":
                 exit = true;
-                Console.WriteLine("Saliendo de TaskFlow... ¡Hasta luego!");
+                ShowText("Saliendo de TaskFlow... ¡Hasta luego!");
                 break;
             default:
-                Console.WriteLine("Opción no válida. Presione cualquier tecla para intentar de nuevo...");
-                Console.ReadKey();
+                ShowText("Opción no válida. Presione cualquier tecla para intentar de nuevo...");
+                ReadKey();
                 break;
             }
         }
+    }
+    public void ShowText(string text)
+    {
+        // Método para mostrar un texto en la consola, utilizado para mensajes de error o confirmación
+        Console.WriteLine(text);
+    }
+    public void ShowTextWhitInput(string text)
+    {
+        // Método para mostrar un texto en la consola y luego solicitar una entrada del usuario, utilizado para formularios de creación o edición de tareas
+        Console.Write(text);
+    }
+    public void ReadKey()
+    {
+        // Método para esperar a que el usuario presione una tecla, utilizado para pausar la aplicación después de mostrar un mensaje
+        Console.ReadKey();
     }
     public void EndApp(){}
     private void CreateTaskFromConsole()
     {
         // Método para crear una tarea a través de la consola, solicitando título, descripción y responsable
           Console.Clear();
-        Console.WriteLine("=== CREAR NUEVA TAREA ===");
+        ShowText("=== CREAR NUEVA TAREA ===");
     
-            Console.Write("Título: ");
+            ShowText("Título: ");
             string title = ValidateTaskInput(Console.ReadLine(), "título");
 
-            Console.Write("Descripción: ");
+            ShowText("Descripción: ");
             string description = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Responsable: ");
+            ShowText("Responsable: ");
             string responsible = ValidateTaskInput(Console.ReadLine(), "responsable");
 
 
         _service.CreateTask(title, description, responsible);
     
-        Console.WriteLine("\n¡Tarea creada con éxito! Presione cualquier tecla para continuar...");
-        Console.ReadKey();
+        ShowText("\n¡Tarea creada con éxito! Presione cualquier tecla para continuar...");
+        ReadKey();
     }
     public string ValidateTaskInput(string input, string fieldName)
     {
         // Método para validar la entrada del usuario al crear una tarea, asegurándose de que el título no esté vacío y que el responsable sea válido
         while (string.IsNullOrWhiteSpace(input))
         {
-            Console.WriteLine($"El {fieldName} no puede estar vacío. Por favor, ingrese un {fieldName} válido.");
-            Console.Write($"{fieldName}: ");
+            ShowText($"El {fieldName} no puede estar vacío. Por favor, ingrese un {fieldName} válido.");
+            ShowTextWhitInput($"{fieldName}: ");
             input = Console.ReadLine();
         }
         return input;
@@ -89,30 +104,37 @@ public class ConsoleHelper
     public void ShowListOfTasks(){
         // Método para mostrar la lista de tareas en la consola, incluyendo título, responsable y estado
          Console.Clear();
-        Console.WriteLine("=== LISTA DE TAREAS ===");
+        ShowText("=== LISTA DE TAREAS ===");
         
         List<TaskItem> tasks = _service.ListTasks();
         
         // Si no hay tareas, mostramos un mensaje indicando que no hay tareas registradas
         if (tasks.Count == 0)
         {
-            Console.WriteLine("No hay tareas registradas en el sistema.");
+            ShowText("No hay tareas registradas en el sistema.");
         }
         else
         {
             foreach (var task in tasks)
             {
-                Console.WriteLine($"[{task.Id}] {task.Title} | Resp: {task.Responsible} | Estado: {task.Status}");
+                ShowText($"[{task.Id}] {task.Title} | Resp: {task.Responsible} | Estado: {task.Status}");
                 if (!string.IsNullOrEmpty(task.Description))
                 {
-                    Console.WriteLine($"    Descripción: {task.Description}");
+                    ShowText($"    Descripción: {task.Description}");
                 }
-                Console.WriteLine("------------------------------------------------");
+                if(task.UpdatedAt.HasValue)
+                {
+                    ShowText($"    Última actualización: {task.UpdatedAt.Value.ToString("g")}");
+                }else
+                {
+                    ShowText($"    Creada el: {task.CreatedAt.ToString("g")}");
+                }
+                ShowText("------------------------------------------------");
             }
         }
     
-        Console.WriteLine("\nPresione cualquier tecla para volver al menú...");
-        Console.ReadKey();
+        ShowText("\nPresione cualquier tecla para volver al menú...");
+        ReadKey();
     }
     public static void UpdateTaskStatusFromConsole(){}
 
