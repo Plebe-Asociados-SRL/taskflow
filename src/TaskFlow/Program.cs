@@ -1,5 +1,4 @@
 ﻿using System;
-using TaskFlow.Models;
 using TaskFlow.Services;
 
 var service = new TaskItemService();
@@ -47,7 +46,7 @@ static void ShowTasks(TaskItemService service)
     Console.Clear();
     Console.WriteLine("=== LISTA DE TAREAS ===");
     
-    List<TaskItem> tasks = service.ListTasks();
+    var tasks = service.ListTasks();
     
     if (tasks.Count == 0)
     {
@@ -57,7 +56,7 @@ static void ShowTasks(TaskItemService service)
     {
         foreach (var task in tasks)
         {
-            Console.WriteLine($"[{task.Id}] {task.Title} | Resp: {task.Responsible} | Estado: {task.Status}");
+            Console.WriteLine($"[{task.Id}] {task.Title} | Resp: {task.Responsible} | Estado: {task.Status}")2;
             if (!string.IsNullOrEmpty(task.Description))
             {
                 Console.WriteLine($"    Descripción: {task.Description}");
