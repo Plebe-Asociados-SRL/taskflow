@@ -13,9 +13,20 @@ public class TaskItemService
         // Al iniciar el servicio, se cargan las tareas existentes del archivo
         _tasks = FileManager.LoadTasks();
     }
+<<<<<<< HEAD
     
+=======
+    private void ValidateTask(string title, string responsible)
+    {
+        if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("El título de la tarea no puede estar vacío.");
+        if (string.IsNullOrWhiteSpace(responsible)) throw new ArgumentException("El responsable de la tarea no puede estar vacío.");
+    }
+
+>>>>>>> develop
     public void CreateTask(string title, string description, string responsible) //Método para crear una tarea con título, descripción y responsable
     {
+        ValidateTask(title, responsible);
+
         var newTask = new TaskItem
         {
             Id = _tasks.Count > 0 ? _tasks.Max(t => t.Id) + 1 : 1, // ID basado en el máximo actual
@@ -33,6 +44,8 @@ public class TaskItemService
 
     public void CreateTask(string title, string responsible) //Sobrecarga del método CreateTask para permitir crear tareas sin descripción
     {
+        ValidateTask(title, responsible);
+
         var newTask = new TaskItem
         {
             Id = _tasks.Count > 0 ? _tasks.Max(t => t.Id) + 1 : 1,
