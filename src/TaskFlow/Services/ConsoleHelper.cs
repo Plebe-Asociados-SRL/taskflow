@@ -21,8 +21,9 @@ public class ConsoleHelper
         ShowText("        || TASKFLOW ||       ");
         ShowText("=============================");
         ShowText("1. Ver lista de tareas");
-        ShowText("2. Crear nueva tarea (Completa)");
-        ShowText("3. Salir");
+        ShowText("2. Crear nueva tarea");
+        ShowText("3. Actualizar estado de tarea");
+        ShowText("4. Salir");
         ShowText("=============================");
         Console.Write("Seleccione una opción: ");
     
@@ -38,6 +39,11 @@ public class ConsoleHelper
                 CreateTaskFromConsole();
                 break;
             case "3":
+                ShowText("Ingrese el ID de la tarea a actualizar:");
+                int Id = int.Parse(ReadLine());
+                UpdateTaskStatusFromConsole(Id);
+                break;
+            case "4":
                 exit = true;
                 ShowText("Saliendo de TaskFlow... ¡Hasta luego!");
                 break;
@@ -144,7 +150,7 @@ public class ConsoleHelper
         Console.WriteLine($"Tarea seleccionada: [{tarea.Id}] {tarea.Title} | Resp: {tarea.Responsible} | Estado: {tarea.Status}");
         Console.WriteLine("Seleccione el nuevo estado:");
         Console.WriteLine("1. ToDo");
-        Console.WriteLine("2. Doing");
+        Console.WriteLine("2. InProgress");
         Console.WriteLine("3. Done");
         string? option = Console.ReadLine();
         TaskStatus newStatus = option switch
