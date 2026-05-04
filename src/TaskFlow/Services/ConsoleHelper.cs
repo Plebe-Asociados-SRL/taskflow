@@ -147,12 +147,12 @@ public class ConsoleHelper
     {
         
         TaskItem tarea = _service.ListTasks().FirstOrDefault(t => t.Id == Id) ?? throw new ArgumentException("Tarea no encontrada.");
-        Console.WriteLine($"Tarea seleccionada: [{tarea.Id}] {tarea.Title} | Resp: {tarea.Responsible} | Estado: {tarea.Status}");
-        Console.WriteLine("Seleccione el nuevo estado:");
-        Console.WriteLine("1. ToDo");
-        Console.WriteLine("2. InProgress");
-        Console.WriteLine("3. Done");
-        string? option = Console.ReadLine();
+        ShowText($"Tarea seleccionada: [{tarea.Id}] {tarea.Title} | Resp: {tarea.Responsible} | Estado: {tarea.Status}");
+        ShowText("Seleccione el nuevo estado:");
+        ShowText("1. Hacer");
+        ShowText("2. En Progreso");
+        ShowText("3. Hecho");
+        string? option = ReadLine();
         TaskStatus newStatus = option switch
         {
             "1" => TaskStatus.ToDo,
