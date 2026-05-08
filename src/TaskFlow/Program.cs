@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TaskFlow.Models;
 using TaskFlow.Services;
 
@@ -8,14 +8,11 @@ bool exit = false;
 while (!exit)
 {
     Console.Clear();
-    Console.WriteLine("=============================");
-    Console.WriteLine("       🚀 TASKFLOW 🚀      ");
-    Console.WriteLine("=============================");
+    Console.WriteLine("TaskFlow");
     Console.WriteLine("1. Ver lista de tareas");
     Console.WriteLine("2. Crear nueva tarea (Completa)");
-    Console.WriteLine("3. Crear nueva tarea (Rápida - sin descripción)");
+    Console.WriteLine("3. Crear nueva tarea (Rápida)");
     Console.WriteLine("4. Salir");
-    Console.WriteLine("=============================");
     Console.Write("Seleccione una opción: ");
 
     string? option = Console.ReadLine();
@@ -33,7 +30,7 @@ while (!exit)
             break;
         case "4":
             exit = true;
-            Console.WriteLine("Saliendo de TaskFlow... ¡Hasta luego!");
+            Console.WriteLine("Saliendo de TaskFlow...");
             break;
         default:
             Console.WriteLine("Opción no válida. Presione cualquier tecla para intentar de nuevo...");
@@ -45,7 +42,7 @@ while (!exit)
 static void ShowTasks(TaskItemService service)
 {
     Console.Clear();
-    Console.WriteLine("=== LISTA DE TAREAS ===");
+    Console.WriteLine("Lista de tareas:");
     
     List<TaskItem> tasks = service.ListTasks();
     
@@ -57,12 +54,11 @@ static void ShowTasks(TaskItemService service)
     {
         foreach (var task in tasks)
         {
-            Console.WriteLine($"[{task.Id}] {task.Title} | Resp: {task.Responsible} | Estado: {task.Status}");
+            Console.WriteLine($"[{task.Id}] {task.Title} - Resp: {task.Responsible} - Estado: {task.Status}");
             if (!string.IsNullOrEmpty(task.Description))
             {
-                Console.WriteLine($"    Descripción: {task.Description}");
+                Console.WriteLine($"  Descripción: {task.Description}");
             }
-            Console.WriteLine("------------------------------------------------");
         }
     }
 
@@ -73,7 +69,7 @@ static void ShowTasks(TaskItemService service)
 static void CreateFullTask(TaskItemService service)
 {
     Console.Clear();
-    Console.WriteLine("=== CREAR NUEVA TAREA ===");
+    Console.WriteLine("Crear nueva tarea:");
     
     Console.Write("Título: ");
     string title = Console.ReadLine() ?? string.Empty;
@@ -86,14 +82,14 @@ static void CreateFullTask(TaskItemService service)
 
     service.CreateTask(title, description, responsible);
     
-    Console.WriteLine("\n¡Tarea creada con éxito! Presione cualquier tecla para continuar...");
+    Console.WriteLine("\nTarea creada. Presione cualquier tecla para continuar...");
     Console.ReadKey();
 }
 
 static void CreateSimpleTask(TaskItemService service)
 {
     Console.Clear();
-    Console.WriteLine("=== CREAR TAREA RÁPIDA ===");
+    Console.WriteLine("Crear tarea rápida:");
     
     Console.Write("Título: ");
     string title = Console.ReadLine() ?? string.Empty;
@@ -103,6 +99,6 @@ static void CreateSimpleTask(TaskItemService service)
 
     service.CreateTask(title, responsible);
     
-    Console.WriteLine("\n¡Tarea creada con éxito! Presione cualquier tecla para continuar...");
+    Console.WriteLine("\nTarea creada. Presione cualquier tecla para continuar...");
     Console.ReadKey();
 }
