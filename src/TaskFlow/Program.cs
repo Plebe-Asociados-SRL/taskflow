@@ -1,2 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+using TaskFlow.Models;
+using TaskFlow.Services;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Constructores y servicios
+        ConsoleHelper consoleService = new ConsoleHelper(new TaskItemService());
+        consoleService.StartApp();
+    }
+}
